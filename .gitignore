@@ -2,6 +2,8 @@
 node_modules
 /dist
 
+baseUrl.js
+userLocation.js
 
 # local env files
 .env.local
