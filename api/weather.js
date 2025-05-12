@@ -9,12 +9,17 @@ export default async function handler(req, res) {
     const url = `https://opendata.cwa.gov.tw/v1/rest/datastore/F-C0032-001?Authorization=${apiKey}&locationName=${encodeURIComponent(locationName)}`;
   
     try {
-      const response = await fetch(url);
-      const data = await response.json();
-  
-      return res.status(200).json(data);
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log("氣象局 API 回傳資料：", data);
+      
+        if (!response.ok || !data || data.success !== "true") {
+          throw new Error("API 錯誤：" + (data.message || response.status));
+        }
+      
+        res.status(200).json(data);
     } catch (error) {
-      console.error('API 錯誤：', error);
-      return res.status(500).json({ error: '無法取得天氣資料' });
+        console.error("取得天氣資料失敗", error);
+        res.status(500).json({ error: "無法取得天氣資料", detail: error.message });
     }
   }
