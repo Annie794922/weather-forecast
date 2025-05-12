@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     }
   
     const apiKey = process.env.VUE_APP_WEATHER_API_KEY;
-    const url = `https://opendata.cwa.gov.tw/v1/rest/datastore/F-C0032-001?Authorization=${apiKey}&locationName=${encodeURIComponent(locationName)}`;
+    const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=${apiKey}&locationName=${encodeURIComponent(locationName)}`;
   
     try {
         const response = await fetch(url);
