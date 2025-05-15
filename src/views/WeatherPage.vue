@@ -222,20 +222,4 @@ export default {
     }
 }
 </script>
-<style>
-/* The circle background outside the weather icon */
-.weather-icon {
-    margin: 0 auto;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-
-.weather-icon i {
-    font-size: 2rem;
-}
-</style>
+<style></style>
