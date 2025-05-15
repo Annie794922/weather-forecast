@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
-import { weatherApiHelper } from '../../api/baseUrl'
+import { weatherApiHelper } from '../utils/baseUrl'
 
 export default createStore({
     state: {

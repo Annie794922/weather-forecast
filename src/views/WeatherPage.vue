@@ -46,7 +46,7 @@
     </div>
 </template>
 <script>
-import { weatherApiHelper } from '../../api/baseUrl'
+import { weatherApiHelper } from '../utils/baseUrl'
 
 import DropdownMenu from '../components/DropdownMenu'
 import WeatherCard from '../components/WeatherCard'
