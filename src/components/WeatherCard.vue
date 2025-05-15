@@ -106,6 +106,12 @@ export default {
 }
 </script>
 <style scoped>
+/* Solving the bug for repaint in Safari browser. */
+.card {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
 .delete-button-area {
     height: 24px;
 }
