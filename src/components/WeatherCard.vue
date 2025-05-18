@@ -78,6 +78,11 @@ export default {
             if (this.weather.includes('晴') && this.weather.includes('雲')) {
                 classKeyName = 'cloudWithSun'
             } else if (
+                this.weather.includes('雷') &&
+                this.weather.includes('雨')
+            ) {
+                classKeyName = 'lightningWithRain'
+            } else if (
                 this.weather.includes('雨') &&
                 this.weather.includes('陰')
             ) {
@@ -87,11 +92,6 @@ export default {
                 this.weather.includes('雲')
             ) {
                 classKeyName = 'cloudy'
-            } else if (
-                this.weather.includes('雷') &&
-                this.weather.includes('雨')
-            ) {
-                classKeyName = 'lightningWithRain'
             } else if (this.weather.includes('晴')) {
                 classKeyName = 'sunny'
             } else if (this.weather.includes('雷')) {
