@@ -60,6 +60,39 @@ export default {
     },
     data() {
         return {
+            searchFields: [
+                {
+                    name: '查詢縣市',
+                    items: [
+                        '宜蘭縣',
+                        '花蓮縣',
+                        '臺東縣',
+                        '澎湖縣',
+                        '金門縣',
+                        '連江縣',
+                        '臺北市',
+                        '新北市',
+                        '桃園市',
+                        '臺中市',
+                        '臺南市',
+                        '高雄市',
+                        '基隆市',
+                        '新竹縣',
+                        '新竹市',
+                        '苗栗縣',
+                        '彰化縣',
+                        '南投縣',
+                        '雲林縣',
+                        '嘉義縣',
+                        '嘉義市',
+                        '屏東縣'
+                    ]
+                },
+                {
+                    name: '查詢時段',
+                    items: []
+                }
+            ],
             hintSettings: [
                 {
                     icon: 'bi-info-circle',
@@ -99,14 +132,45 @@ export default {
                     '臺北市'
                 )
 
-                if (response.status === 200) {
+                const { status, dataPeriods } = response
+
+                if (status === 200) {
+                    // Generate the options in the period dropdown menu
+                    this.searchFields[1].items = []
+
+                    for (const period of dataPeriods) {
+                        const displayStartDate = period.startTime
+                            .slice(5, 10)
+                            .replace('-', '/')
+                        const displayStartTime = period.startTime.slice(11, 16)
+                        const displayEndDate = period.endTime
+                            .slice(5, 10)
+                            .replace('-', '/')
+                        const displayEndTime = period.endTime.slice(11, 16)
+                        const displayPeriodOption = `${displayStartDate} ${displayStartTime} ~ ${displayEndDate} ${displayEndTime}`
+
+                        const option = {
+                            label: displayPeriodOption,
+                            value: period.startTime
+                        }
+
+                        this.searchFields[1].items.push(option)
+                    }
+
                     return
                 }
             } catch (error) {
                 console.log(error)
                 alert('初始資料請求有誤，請稍後再試，謝謝！')
 
+                this.searchFields[1].items = []
+
                 this.loadingMessage = '沒有任何天氣資料'
+                this.searchFields[1].items.push({
+                    label: '沒有可查詢的時段',
+                    value: ''
+                })
+
                 return
             }
         }
@@ -118,7 +182,11 @@ export default {
             if (value.length === 3) {
                 this.params.locationName = value
             } else if (value.includes('~')) {
-                this.params.period = value
+                const selectedOption = this.searchFields[1].items.find(
+                    (option) => option.label === value
+                )
+
+                this.params.period = selectedOption.value
             }
         },
         async search() {
@@ -129,7 +197,9 @@ export default {
             // Confirm whether the same locationName & period combination has existed.
             const repeatData = this.searchResults.find(
                 (data) =>
-                    data.location === locationName && data.period === period
+                    data.location === locationName &&
+                    data.period.split(' ~ ')[0] ===
+                        period.slice(0, 16).replaceAll('-', '/')
             )
 
             if (repeatData) {
@@ -175,7 +245,16 @@ export default {
                             )
                             resultData.weather =
                                 searchPeriodData.parameter.parameterName
-                            resultData.period = `${searchPeriodData.startTime} ~ ${searchPeriodData.endTime}`
+
+                            // Adjust the displaying format in frontend
+                            resultData.period = `${searchPeriodData.startTime
+                                .slice(0, 16)
+                                .replaceAll(
+                                    '-',
+                                    '/'
+                                )} ~ ${searchPeriodData.endTime
+                                .slice(0, 16)
+                                .replaceAll('-', '/')}`
                         } else if (element.elementName === 'CI') {
                             searchPeriodData = element.time.find(
                                 (item) => item.startTime === periodStart
@@ -194,6 +273,7 @@ export default {
                 }
             } catch (error) {
                 console.log(error)
+                alert('查詢過程出了點問題，請稍後再試，謝謝！')
 
                 this.isLoading = false
                 return Promise.reject(error)
@@ -205,9 +285,6 @@ export default {
         }
     },
     computed: {
-        searchFields() {
-            return this.$store.state.searchFields
-        },
         searchResults() {
             return this.$store.state.searchResults
         },

@@ -5,50 +5,10 @@ import { weatherApiHelper } from '../utils/baseUrl'
 
 export default createStore({
     state: {
-        searchFields: [
-            {
-                name: '查詢縣市',
-                items: [
-                    '宜蘭縣',
-                    '花蓮縣',
-                    '臺東縣',
-                    '澎湖縣',
-                    '金門縣',
-                    '連江縣',
-                    '臺北市',
-                    '新北市',
-                    '桃園市',
-                    '臺中市',
-                    '臺南市',
-                    '高雄市',
-                    '基隆市',
-                    '新竹縣',
-                    '新竹市',
-                    '苗栗縣',
-                    '彰化縣',
-                    '南投縣',
-                    '雲林縣',
-                    '嘉義縣',
-                    '嘉義市',
-                    '屏東縣'
-                ]
-            },
-            {
-                name: '查詢時段',
-                items: []
-            }
-        ],
         searchResults: []
     },
     getters: {},
     mutations: {
-        setPeriodOptions(state, options) {
-            state.searchFields[1].items = []
-
-            for (const option of options) {
-                state.searchFields[1].items.push(option)
-            }
-        },
         saveResult(state, resultData) {
             state.searchResults.pop()
             state.searchResults.push(resultData)
@@ -70,18 +30,15 @@ export default createStore({
                 if (response.status === 200) {
                     const resultData = {}
 
-                    const periodOptions = []
                     let nearestTimeData
 
-                    // Generate the options in the period dropdown menu
-                    for (const data of response.data.records.location[0]
-                        .weatherElement[0].time) {
-                        periodOptions.push(
-                            `${data.startTime} ~ ${data.endTime}`
-                        )
+                    // The Data for combining the labels and values for period options
+                    const responseData = {
+                        status: response.status,
+                        dataPeriods:
+                            response.data.records.location[0].weatherElement[0]
+                                .time
                     }
-
-                    commit('setPeriodOptions', periodOptions)
 
                     // Generate the data structure for the single weather information
                     resultData.location =
@@ -102,7 +59,16 @@ export default createStore({
                             nearestTimeData = element.time[0]
                             resultData.weather =
                                 nearestTimeData.parameter.parameterName
-                            resultData.period = `${nearestTimeData.startTime} ~ ${nearestTimeData.endTime}`
+
+                            // Adjust the displaying format in frontend
+                            resultData.period = `${nearestTimeData.startTime
+                                .slice(0, 16)
+                                .replaceAll(
+                                    '-',
+                                    '/'
+                                )} ~ ${nearestTimeData.endTime
+                                .slice(0, 16)
+                                .replaceAll('-', '/')}`
                         } else if (element.elementName === 'CI') {
                             nearestTimeData = element.time[0]
                             resultData.feeling =
@@ -114,7 +80,7 @@ export default createStore({
 
                     commit('saveResult', resultData)
 
-                    return response
+                    return responseData
                 }
             } catch (error) {
                 console.log(error)
