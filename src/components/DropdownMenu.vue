@@ -14,11 +14,23 @@
             >
                 {{ selectedItem || '請選擇' }}
             </button>
-            <ul class="dropdown-menu w-100">
+            <ul v-if="name.includes('縣市')" class="dropdown-menu w-100">
                 <template v-for="(item, index) in items" :key="index">
                     <li>
                         <a class="dropdown-item" @click="getSelectedItem(item)">
                             {{ item }}
+                        </a>
+                    </li>
+                </template>
+            </ul>
+            <ul v-if="name.includes('時段')" class="dropdown-menu w-100">
+                <template v-for="(item, index) in items" :key="index">
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            @click="getSelectedItem(item.label)"
+                        >
+                            {{ item.label }}
                         </a>
                     </li>
                 </template>
