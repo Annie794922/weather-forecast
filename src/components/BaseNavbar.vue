@@ -1,5 +1,8 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary mb-3">
+    <nav
+        class="navbar navbar-expand-lg navbar-light mb-3"
+        style="background-color: #8e8e8e"
+    >
         <div class="container-fluid">
             <!-- Project logo(name) -->
             <router-link class="navbar-brand text-light" to="/">
