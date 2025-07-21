@@ -25,6 +25,10 @@ export default {
     background-color: map-get($backgroundColors, website);
 }
 
+html {
+    background-color: map-get($backgroundColors, website);
+}
+
 nav {
     padding: 30px;
 }
