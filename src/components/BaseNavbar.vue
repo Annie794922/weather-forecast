@@ -1,7 +1,7 @@
 <template>
     <nav
         class="navbar navbar-expand-lg navbar-light mb-3"
-        style="background-color: #8e8e8e"
+        :style="{ backgroundColor: 'var(--navbar-background-color)' }"
     >
         <div class="container-fluid">
             <!-- Project logo(name) -->
@@ -55,13 +55,13 @@ export default {
                     color: 'text-white',
                     path: '/',
                     activeClass: 'reading-page'
+                },
+                {
+                    title: 'About',
+                    color: 'text-white',
+                    path: '/about',
+                    activeClass: 'reading-page'
                 }
-                // {
-                //     title: 'About',
-                //     color: 'text-white',
-                //     path: '/about',
-                //     activeClass: 'reading-page'
-                // }
             ]
         }
     }
