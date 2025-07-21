@@ -105,11 +105,12 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 /* Solving the bug for repaint in Safari browser. */
 .card {
     will-change: transform;
     transform: translateZ(0);
+    background-color: map-get($backgroundColors, card);
 }
 
 .delete-button-area {
@@ -130,5 +131,9 @@ export default {
 
 .weather-icon i {
     font-size: 2rem;
+}
+
+.list-group-item {
+    background-color: map-get($backgroundColors, card);
 }
 </style>

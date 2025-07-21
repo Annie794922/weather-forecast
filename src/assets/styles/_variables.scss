@@ -1,0 +1,10 @@
+$backgroundColors: (
+    website: #f0f2f3,
+    navbar: #8e8e8e,
+    card: #eceff1,
+    activeLink: #42b983
+);
+
+:root {
+    --navbar-background-color: #{map-get($backgroundColors, navbar)};
+}

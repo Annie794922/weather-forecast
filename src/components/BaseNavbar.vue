@@ -1,7 +1,7 @@
 <template>
     <nav
         class="navbar navbar-expand-lg navbar-light mb-3"
-        style="background-color: #8e8e8e"
+        :style="{ backgroundColor: 'var(--navbar-background-color)' }"
     >
         <div class="container-fluid">
             <!-- Project logo(name) -->
