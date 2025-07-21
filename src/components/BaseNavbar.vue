@@ -52,13 +52,13 @@ export default {
                     color: 'text-white',
                     path: '/',
                     activeClass: 'reading-page'
+                },
+                {
+                    title: 'About',
+                    color: 'text-white',
+                    path: '/about',
+                    activeClass: 'reading-page'
                 }
-                // {
-                //     title: 'About',
-                //     color: 'text-white',
-                //     path: '/about',
-                //     activeClass: 'reading-page'
-                // }
             ]
         }
     }
